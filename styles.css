@@ -251,11 +251,27 @@ body{
   border-radius:10px;
   background: rgba(0,0,0,.12);
 }
+.panel__body{
+  max-height: calc(100vh - 140px);
+  overflow:auto;
+}
 
 .history{
   display:grid;
   gap:10px;
   margin-top:10px;
+
+  max-height: 360px;      /* adjust to taste */
+  overflow:auto;
+  padding-right:6px;      /* room for scrollbar */
+}
+
+/* nicer scrollbar (optional) */
+.history::-webkit-scrollbar{ width:10px; }
+.history::-webkit-scrollbar-thumb{
+  background: rgba(255,255,255,.10);
+  border: 1px solid var(--border);
+  border-radius: 999px;
 }
 .history__item{
   border:1px solid var(--border);
