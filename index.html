@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="theme-color" content="#0b1f10" />
+  <meta name="description" content="Vault 52 Security duty log terminal: timers + auto-formatted Discord logs." />
+
+  <link rel="manifest" href="./manifest.webmanifest" />
+  <link rel="icon" href="./icons/icon-192.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="./styles.css" />
+
+  <title>Vault 52 Security Terminal</title>
+</head>
+
+<body>
+  <div class="bg-noise" aria-hidden="true"></div>
+  <div class="scanlines" aria-hidden="true"></div>
+
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand__title">VAULT 52 SECURITY TERMINAL</div>
+      <div class="brand__sub">Duty logs • Patrol timer • Copy-ready Discord formats</div>
+    </div>
+
+    <div class="topbar__actions">
+      <button id="installBtn" class="btn btn--ghost" type="button" hidden>Install App</button>
+      <button id="toggleThemeBtn" class="btn btn--ghost" type="button" title="Toggle Amber/Green">Amber</button>
+    </div>
+  </header>
+
+  <main class="layout">
+    <!-- LEFT: INPUTS -->
+    <section class="panel">
+      <div class="panel__header">
+        <div class="panel__title">SETTINGS</div>
+        <div class="panel__meta">Stored locally on your device</div>
+      </div>
+
+      <div class="panel__body">
+        <div class="grid">
+          <label class="field">
+            <span>Username (In-game @)</span>
+            <input id="username" type="text" placeholder="@YourUser" autocomplete="off" />
+          </label>
+
+          <label class="field">
+            <span>Security Rank</span>
+            <select id="rank">
+              <option value="">Select rank…</option>
+              <option>[S0] Cadet</option>
+              <option>[S1] Probationary Officer</option>
+              <option>[S2] Officer</option>
+              <option>[S3] Senior Officer</option>
+              <option>[S4] Corporal</option>
+              <option>[S5] Sergeant</option>
+              <option>[S6] Lieutenant</option>
+              <option>[S7] Captain</option>
+              <option>[S8] Major</option>
+              <option>[S9] Deputy Head of Security</option>
+              <option>[S10] Head of Security</option>
+            </select>
+          </label>
+
+          <label class="field">
+            <span>Timezone</span>
+            <input id="timezone" type="text" placeholder="EST" autocomplete="off" />
+          </label>
+
+          <label class="field">
+            <span>Log Type</span>
+            <select id="logType">
+              <option value="patrol">Patrol Log</option>
+              <option value="backup">Backup Request</option>
+              <option value="inactivity">Inactivity Log</option>
+              <option value="discharge">Discharge Request</option>
+              <option value="ammo">Ammo Request</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- PATROL -->
+        <section id="patrolSection" class="mode">
+          <div class="mode__title">PATROL CONTROLS</div>
+
+          <div class="timer">
+            <div class="timer__readout">
+              <div class="timer__label">DURATION</div>
+              <div id="timerText" class="timer__value">00:00:00</div>
+              <div class="timer__mini">
+                <span>Start:</span> <span id="startStamp">—</span>
+                <span class="spacer"></span>
+                <span>End:</span> <span id="endStamp">—</span>
+              </div>
+            </div>
+
+            <div class="timer__buttons">
+              <button id="startBtn" class="btn" type="button">Start Patrol</button>
+              <button id="endBtn" class="btn btn--danger" type="button" disabled>End Patrol</button>
+              <button id="resetBtn" class="btn btn--ghost" type="button">Reset</button>
+            </div>
+          </div>
+
+          <div class="divider"></div>
+
+          <div class="mode__title">TASKS (OPTIONAL)</div>
+          <div class="checklist" id="taskList">
+            <label><input type="checkbox" value="Vault interior sweep"> Vault interior sweep</label>
+            <label><input type="checkbox" value="Border watch / perimeter check"> Border watch / perimeter check</label>
+            <label><input type="checkbox" value="Assisted authorized members (guidance/help)"> Assisted authorized members (guidance/help)</label>
+            <label><input type="checkbox" value="Responded to disturbance / conflict"> Responded to disturbance / conflict</label>
+            <label><input type="checkbox" value="Processed offender (verbal/non-lethal per policy)"> Processed offender (verbal/non-lethal per policy)</label>
+            <label><input type="checkbox" value="Event support / crowd control"> Event support / crowd control</label>
+          </div>
+
+          <label class="field">
+            <span>Notes (what you did / anything important)</span>
+            <textarea id="patrolNotes" rows="4" placeholder="Example: Perimeter sweep, reminded dwellers of restricted area, assisted HR with crowd control..."></textarea>
+          </label>
+
+          <div class="hint">
+            Proof reminder: add your start/end screenshots OR note <b>!STOPWATCH</b> usage in Discord.
+          </div>
+        </section>
+
+        <!-- BACKUP -->
+        <section id="backupSection" class="mode hidden">
+          <div class="mode__title">BACKUP REQUEST</div>
+
+          <label class="field">
+            <span>Priority</span>
+            <select id="backupPriority">
+              <option value="">Select priority…</option>
+              <option value="Medium">Medium (3–4 raiders)</option>
+              <option value="High">High (5+ raiders)</option>
+            </select>
+          </label>
+
+          <label class="field">
+            <span>Additional Notes</span>
+            <textarea id="backupNotes" rows="4" placeholder="Example: Raiders at border, shots fired, request reinforcement at main gate..."></textarea>
+          </label>
+
+          <div class="hint">
+            Priority Key: Medium threat = 3–4 raiders • High threat = 5+ raiders
+          </div>
+        </section>
+
+        <!-- INACTIVITY -->
+        <section id="inactivitySection" class="mode hidden">
+          <div class="mode__title">INACTIVITY LOG</div>
+
+          <label class="field">
+            <span>Length of Inactivity</span>
+            <input id="inactivityLength" type="text" placeholder="Example: 7 days" autocomplete="off" />
+          </label>
+
+          <label class="field">
+            <span>Reason (optional but recommended)</span>
+            <textarea id="inactivityReason" rows="4" placeholder="Example: Work schedule / travel / family obligations..."></textarea>
+          </label>
+        </section>
+
+        <!-- DISCHARGE -->
+        <section id="dischargeSection" class="mode hidden">
+          <div class="mode__title">DISCHARGE REQUEST</div>
+
+          <label class="field">
+            <span>Date of Discharge</span>
+            <input id="dischargeDate" type="date" />
+          </label>
+
+          <label class="field">
+            <span>Reason</span>
+            <textarea id="dischargeReason" rows="4" placeholder="Example: Stepping away due to time constraints..."></textarea>
+          </label>
+        </section>
+
+        <!-- AMMO -->
+        <section id="ammoSection" class="mode hidden">
+          <div class="mode__title">AMMO REQUEST</div>
+
+          <label class="field">
+            <span>Reason for Request</span>
+            <textarea id="ammoReason" rows="3" placeholder="Example: Multiple engagements during patrols, low reserve..."></textarea>
+          </label>
+
+          <label class="field">
+            <span>Current Bullet Count (paste image link for proof)</span>
+            <input id="ammoCurrentProof" type="url" placeholder="https://gyazo.com/..." autocomplete="off" />
+          </label>
+
+          <div class="grid">
+            <label class="field">
+              <span>Amount Requesting (Bullets)</span>
+              <input id="ammoBullets" type="number" min="0" max="1500" placeholder="0" />
+            </label>
+
+            <label class="field">
+              <span>Amount Requesting (Fusion Cells)</span>
+              <input id="ammoCells" type="number" min="0" max="500" placeholder="0" />
+            </label>
+          </div>
+
+          <label class="field">
+            <span>Note (optional)</span>
+            <textarea id="ammoNote" rows="3" placeholder="Anything else HR should know..."></textarea>
+          </label>
+
+          <div class="hint">
+            Limits: <b>1,500 bullets</b> • <b>500 fusion cells</b>
+          </div>
+        </section>
+
+        <div class="divider"></div>
+
+        <div class="row">
+          <button id="generateBtn" class="btn" type="button">Generate Output</button>
+          <button id="clearSavedBtn" class="btn btn--ghost" type="button" title="Clears saved username/rank/timezone">Clear Saved</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- RIGHT: OUTPUT + HISTORY -->
+    <section class="panel">
+      <div class="panel__header">
+        <div class="panel__title">FORMATTED OUTPUT</div>
+        <div class="panel__meta">Copy & paste into Discord</div>
+      </div>
+
+      <div class="panel__body">
+        <pre id="output" class="output">Ready to format your log…</pre>
+
+        <div class="row">
+          <button id="copyBtn" class="btn" type="button">Copy</button>
+          <button id="exportBtn" class="btn btn--ghost" type="button">Export .txt</button>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="panel__header panel__header--inner">
+          <div class="panel__title">HISTORY</div>
+          <div class="panel__meta">Saved locally</div>
+        </div>
+
+        <div id="history" class="history">
+          <div class="muted">No submissions yet.</div>
+        </div>
+
+        <div class="row">
+          <button id="clearHistoryBtn" class="btn btn--danger" type="button">Clear History</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+
+  <script src="./app.js"></script>
+</body>
+</html>
