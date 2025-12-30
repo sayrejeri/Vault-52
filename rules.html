@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="theme-color" content="#0b1f10" />
+  <link rel="manifest" href="./manifest.webmanifest" />
+  <link rel="icon" href="./icons/icon-192.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="./styles.css" />
+  <title>V52 Rules Terminal</title>
+</head>
+
+<body>
+  <div class="bg-noise" aria-hidden="true"></div>
+  <div class="scanlines" aria-hidden="true"></div>
+
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand__title">VAULT 52 RULES TERMINAL</div>
+      <div class="brand__sub">Quick reference • Searchable • Copy-friendly</div>
+    </div>
+
+    <div class="topbar__actions">
+      <a class="btn btn--ghost" href="./index.html">Logs</a>
+      <button id="toggleThemeBtn" class="btn btn--ghost" type="button" title="Toggle Amber/Green">Amber</button>
+    </div>
+  </header>
+
+  <main class="layout" style="grid-template-columns: 1fr;">
+    <section class="panel">
+      <div class="panel__header">
+        <div class="panel__title">SEARCH</div>
+        <div class="panel__meta">Type anything: faction name, status, rule keyword</div>
+      </div>
+
+      <div class="panel__body">
+        <div class="grid">
+          <label class="field" style="grid-column: 1 / -1;">
+            <span>Search</span>
+            <input id="search" type="text" placeholder="Search rules, factions, blacklists…" autocomplete="off" />
+          </label>
+
+          <label class="field">
+            <span>Section</span>
+            <select id="section">
+              <option value="all">All</option>
+              <option value="foreign">Foreign Affairs</option>
+              <option value="definitions">Definitions</option>
+              <option value="rules">Vault Rules (Quick)</option>
+              <option value="blacklists">Blacklists</option>
+            </select>
+          </label>
+
+          <label class="field">
+            <span>Show Only</span>
+            <select id="filter">
+              <option value="any">Any</option>
+              <option value="allied">Allied</option>
+              <option value="neutral">Neutral</option>
+              <option value="hostile">Hostile</option>
+              <option value="enemy">Enemy</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="panel__header panel__header--inner">
+          <div class="panel__title">FOREIGN AFFAIRS</div>
+          <div class="panel__meta">Statuses can change at any time</div>
+        </div>
+        <div id="foreignResults" class="history" style="max-height: 420px;"></div>
+
+        <div class="divider"></div>
+
+        <div class="panel__header panel__header--inner">
+          <div class="panel__title">DEFINITIONS</div>
+          <div class="panel__meta">What each status means</div>
+        </div>
+        <div id="definitionResults" class="history" style="max-height: 260px;"></div>
+
+        <div class="divider"></div>
+
+        <div class="panel__header panel__header--inner">
+          <div class="panel__title">VAULT RULES (QUICK)</div>
+          <div class="panel__meta">Lightweight reference (expand later)</div>
+        </div>
+        <div id="ruleResults" class="history" style="max-height: 320px;"></div>
+
+        <div class="divider"></div>
+
+        <div class="panel__header panel__header--inner">
+          <div class="panel__title">BLACKLISTS</div>
+          <div class="panel__meta">External reference</div>
+        </div>
+
+        <div class="hint">
+          Official blacklists are maintained here:
+          <br />
+          <a class="btn btn--ghost" href="https://trello.com/b/dkk0jEQJ/v52-vault-blacklists" target="_blank" rel="noreferrer">Open Trello Blacklists</a>
+          <br /><br />
+          If you later want a *public* “quick search” blacklist on this site, we can add a JSON list — but only if SD leadership approves publishing it.
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="./rules.js"></script>
+</body>
+</html>
