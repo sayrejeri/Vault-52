@@ -25,7 +25,7 @@ A Fallout-themed, installable GitHub Pages site (PWA) for **Vault 52 Security** 
 - Blacklists button links to Trello (external)
 
 ## Live Site
-- GitHub Pages URL: [(add your Pages URL here)](https://sayrejeri.github.io/Vault-52)
+- GitHub Pages URL: (https://sayrejeri.github.io/Vault-52)
 
 ## Install as an App (PWA)
 This site supports install as a desktop/mobile app.
