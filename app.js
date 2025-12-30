@@ -7,6 +7,19 @@
 
 const $ = (id) => document.getElementById(id);
 
+const ASSETS = [
+  "./",
+  "./index.html",
+  "./styles.css",
+  "./app.js",
+  "./rules.html",
+  "./rules.js",
+  "./data/foreign-affairs.json",
+  "./manifest.webmanifest",
+  "./icons/icon-192.svg",
+  "./icons/icon-512.svg"
+];
+
 const usernameEl = $("username");
 const rankEl = $("rank");
 const timezoneEl = $("timezone");
