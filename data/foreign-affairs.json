@@ -1,5 +1,5 @@
 {
-  "asOf": "DEC 30",
+  "asOf": "JAN 03",
   "note": "Statuses can change at any time, even if the faction owner does not request them. Both official and unofficial factions may be listed.",
   "definitions": [
     {
@@ -22,9 +22,9 @@
   "foreignAffairs": [
     {
       "name": "The Enclave (Richclave)",
-      "status": "Allied",
+      "status": "Neutral",
       "owner": "Richclave",
-      "notes": "Allied faction."
+      "notes": "Neutral faction."
     },
     {
       "name": "The Enclave Marine Corp (Jeffclave)",
@@ -64,9 +64,9 @@
     },
     {
       "name": "New Californian Republic",
-      "status": "Neutral",
+      "status": "Enemy",
       "owner": "",
-      "notes": "Neutral faction."
+      "notes": "Enemy Faction."
     },
     {
       "name": "The Brotherhood of Gold",
@@ -76,9 +76,9 @@
     },
     {
       "name": "The Brotherhood of Steel (hjonks)",
-      "status": "Hostile",
+      "status": "Allied",
       "owner": "hjonks",
-      "notes": "Hostile faction."
+      "notes": "Allied Faction."
     }
   ],
   "quickRules": [
