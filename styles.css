@@ -306,3 +306,32 @@ body{
   box-shadow: 0 10px 30px rgba(0,0,0,.45);
   font-size:12px;
 }
+
+.badge{
+  display:inline-block;
+  padding:2px 8px;
+  border-radius:999px;
+  font-size:12px;
+  line-height:1.4;
+  border:1px solid currentColor;
+  margin-left:6px;
+  white-space:nowrap;
+}
+
+.badge--fresh{ opacity:0.95; }
+.badge--stale{ opacity:0.95; }
+.badge--old{ opacity:0.95; }
+.badge--unknown{ opacity:0.8; }
+.badge--info{ opacity:0.85; }
+.badge--status{ opacity:0.95; }
+
+/* Theme-aware colors (no hard colors needed): use your terminal accent variables if you have them */
+body[data-theme="green"] .badge--fresh{ color: var(--accent, #79ff9a); }
+body[data-theme="green"] .badge--stale{ color: var(--accent2, #ffd86a); }
+body[data-theme="green"] .badge--old{ color: var(--danger, #ff6b6b); }
+body[data-theme="green"] .badge--unknown{ color: var(--muted, #8aa08f); }
+
+body[data-theme="amber"] .badge--fresh{ color: var(--accent, #ffd86a); }
+body[data-theme="amber"] .badge--stale{ color: var(--accent2, #ffd86a); }
+body[data-theme="amber"] .badge--old{ color: var(--danger, #ff6b6b); }
+body[data-theme="amber"] .badge--unknown{ color: var(--muted, #a8966d); }
