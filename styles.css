@@ -291,6 +291,19 @@ body{
   white-space:pre-wrap;
   line-height:1.35;
 }
+.history__text ul{
+  margin: 8px 0 0;
+  padding-left: 18px;
+}
+
+.history__text li{
+  margin: 6px 0;
+}
+
+.history__text p{
+  margin: 8px 0 0;
+}
+
 
 .muted{color:var(--muted); font-size:12px}
 
