@@ -1,0 +1,35 @@
+{
+  "asOf": "JAN 4",
+  "sections": [
+    {
+      "name": "General Rules",
+      "items": [
+        {
+          "title": "Security decorum",
+          "details": "Use best grammar possible and keep a level temper while on duty. Report improper conduct to SD staff.",
+          "tags": ["decorum", "conduct"]
+        },
+        {
+          "title": "Territory restriction",
+          "details": "Security should not leave Vault-Tec territory while on duty unless ordered. Mining is not permitted while on duty.",
+          "tags": ["territory", "duty"]
+        }
+      ]
+    },
+    {
+      "name": "Enforcement Quick Rules",
+      "items": [
+        {
+          "title": "Jail time cap",
+          "details": "Jail time cap is 15 minutes and must not exceed this unless waiting for Corporate to arrive.",
+          "tags": ["jail", "policy"]
+        },
+        {
+          "title": "Border procedure",
+          "details": "Unauthorized player crossing border: warning shot, then lethal action may be taken if they continue.",
+          "tags": ["border", "force"]
+        }
+      ]
+    }
+  ]
+}
