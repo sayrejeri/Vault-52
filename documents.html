@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="theme-color" content="#0b1f10" />
+  <link rel="manifest" href="./manifest.webmanifest" />
+  <link rel="icon" href="./icons/icon-192.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="./styles.css" />
+  <title>V52 Public Docs</title>
+</head>
+
+<body>
+  <div class="bg-noise" aria-hidden="true"></div>
+  <div class="scanlines" aria-hidden="true"></div>
+
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand__title">VAULT 52 PUBLIC DOCUMENT HUB</div>
+      <div class="brand__sub">Links only • Public resources</div>
+    </div>
+
+    <div class="topbar__actions">
+      <a class="btn btn--ghost" href="./index.html">Logs</a>
+      <a class="btn btn--ghost" href="./foreign.html">Foreign Affairs</a>
+      <a class="btn btn--ghost" href="./rules.html">Rules</a>
+      <button id="toggleThemeBtn" class="btn btn--ghost" type="button">Amber</button>
+    </div>
+  </header>
+
+  <main class="layout" style="grid-template-columns:1fr;">
+    <section class="panel">
+      <div class="panel__header">
+        <div class="panel__title">PUBLIC DOCUMENTS</div>
+        <div class="panel__meta">Opens in a new tab</div>
+      </div>
+
+      <div class="panel__body">
+        <div class="history" style="max-height: 650px; overflow:auto;">
+          <div class="history__item">
+            <div class="history__meta"><span>V52 Public Document Hub</span><span>Notion</span></div>
+            <div class="history__text">
+              <a class="btn btn--ghost" target="_blank" rel="noreferrer"
+                 href="https://foam-guardian-a57.notion.site/V52-Public-Document-Hub-298591781bdc806b8987f354066e93c2">Open</a>
+            </div>
+          </div>
+
+          <div class="history__item">
+            <div class="history__meta"><span>V52 Security Handbook</span><span>Notion</span></div>
+            <div class="history__text">
+              <a class="btn btn--ghost" target="_blank" rel="noreferrer"
+                 href="https://foam-guardian-a57.notion.site/V52-Security-Handbook-29b591781bdc80af86a0fe0f7fd401f4#29d591781bdc8082b073c42286b8d581">Open</a>
+            </div>
+          </div>
+
+          <div class="history__item">
+            <div class="history__meta"><span>V52 GT Handbook</span><span>Notion</span></div>
+            <div class="history__text">
+              <a class="btn btn--ghost" target="_blank" rel="noreferrer"
+                 href="https://foam-guardian-a57.notion.site/V52-GT-Handbook-298591781bdc809184f0fec7ec15719e">Open</a>
+            </div>
+          </div>
+
+          <div class="history__item">
+            <div class="history__meta"><span>V52 Events Handbook</span><span>Notion</span></div>
+            <div class="history__text">
+              <a class="btn btn--ghost" target="_blank" rel="noreferrer"
+                 href="https://foam-guardian-a57.notion.site/V52-Events-Handbook-298591781bdc80928ab5d52fa4739cca">Open</a>
+            </div>
+          </div>
+
+          <div class="history__item">
+            <div class="history__meta"><span>V52 Formations Guide</span><span>Notion</span></div>
+            <div class="history__text">
+              <a class="btn btn--ghost" target="_blank" rel="noreferrer"
+                 href="https://foam-guardian-a57.notion.site/V52-Formations-Guide-298591781bdc8073ab2bc4afaff53f31">Open</a>
+            </div>
+          </div>
+
+          <div class="history__item">
+            <div class="history__meta"><span>V52 Security Event Handbook</span><span>Notion</span></div>
+            <div class="history__text">
+              <a class="btn btn--ghost" target="_blank" rel="noreferrer"
+                 href="https://foam-guardian-a57.notion.site/V52-Security-Event-Handbook-2a2591781bdc8063b13fc9340a25092c">Open</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="hint">
+          This page intentionally contains <b>links only</b> to avoid exposing any private/internal document content.
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const LS_THEME = "v52_theme";
+    const btn = document.getElementById("toggleThemeBtn");
+    function setTheme(t){ document.body.dataset.theme=t; localStorage.setItem(LS_THEME,t); btn.textContent=t==="amber"?"Green":"Amber"; }
+    const current = localStorage.getItem(LS_THEME)||"green";
+    setTheme(current);
+    btn.addEventListener("click",()=>setTheme((localStorage.getItem(LS_THEME)||"green")==="green"?"amber":"green"));
+  </script>
+</body>
+</html>
