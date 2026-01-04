@@ -1,4 +1,4 @@
-const CACHE_NAME = "v52-terminal-v2";
+const CACHE_NAME = "v52-terminal-v3";
 
 const STATIC_ASSETS = [
   "./",
@@ -7,8 +7,11 @@ const STATIC_ASSETS = [
   "./rules.html",
   "./documents.html",
   "./styles.css",
+  "./theme.js",
   "./app.js",
   "./foreign.js",
+  "./rules.js",
+  "./documents.js",
   "./manifest.webmanifest",
   "./icons/icon-192.svg",
   "./icons/icon-512.svg"
