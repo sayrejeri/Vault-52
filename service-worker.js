@@ -1,70 +1,68 @@
-const CACHE_NAME = "v52-terminal-v2"; // bump version to clear old cache
+const CACHE_NAME = "v52-terminal-v2";
 
-const ASSETS = [
+const STATIC_ASSETS = [
   "./",
   "./index.html",
+  "./foreign.html",
+  "./rules.html",
+  "./documents.html",
   "./styles.css",
   "./app.js",
-  "./rules.html",
-  "./rules.js",
-  "./foreign.html",
   "./foreign.js",
-  "./data/foreign-affairs.json",
-  "./documents.html",
   "./manifest.webmanifest",
   "./icons/icon-192.svg",
   "./icons/icon-512.svg"
-  // ⚠️ intentionally NOT caching /data/*
 ];
 
-self.addEventListener("install", (event) => {
+/* ---------- Install ---------- */
+self.addEventListener("install", event => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => cache.addAll(ASSETS))
+    caches.open(CACHE_NAME).then(cache => cache.addAll(STATIC_ASSETS))
   );
   self.skipWaiting();
 });
 
-self.addEventListener("activate", (event) => {
+/* ---------- Activate ---------- */
+self.addEventListener("activate", event => {
   event.waitUntil(
-    caches.keys().then((keys) =>
+    caches.keys().then(keys =>
       Promise.all(
-        keys.map((key) => (key !== CACHE_NAME ? caches.delete(key) : null))
+        keys.map(k => (k !== CACHE_NAME ? caches.delete(k) : null))
       )
     )
   );
   self.clients.claim();
 });
 
-self.addEventListener("fetch", (event) => {
-  const url = new URL(event.request.url);
+/* ---------- Fetch ---------- */
+self.addEventListener("fetch", event => {
+  const req = event.request;
+  const url = new URL(req.url);
 
-  // ✅ ALWAYS fetch fresh data JSON (Foreign Affairs, future data files)
-  if (url.origin === location.origin && url.pathname.startsWith("/data/")) {
-    event.respondWith(fetch(event.request));
+  /* Network-first for policy JSON */
+  if (url.pathname.startsWith("/data/")) {
+    event.respondWith(
+      fetch(req)
+        .then(resp => {
+          const copy = resp.clone();
+          caches.open(CACHE_NAME).then(cache => cache.put(req, copy));
+          return resp;
+        })
+        .catch(() => caches.match(req))
+    );
     return;
   }
 
-  // Normal cache-first behavior for app shell
+  /* Cache-first for everything else */
   event.respondWith(
-    caches.match(event.request).then((cached) => {
-      return (
-        cached ||
-        fetch(event.request).then((response) => {
-          // Cache same-origin GET requests
-          if (
-            response &&
-            response.status === 200 &&
-            event.request.method === "GET" &&
-            url.origin === location.origin
-          ) {
-            const copy = response.clone();
-            caches.open(CACHE_NAME).then((cache) =>
-              cache.put(event.request, copy)
-            );
-          }
-          return response;
-        })
-      );
+    caches.match(req).then(cached => {
+      return cached || fetch(req).then(resp => {
+        if (req.method === "GET" && url.origin === location.origin) {
+          const copy = resp.clone();
+          caches.open(CACHE_NAME).then(cache => cache.put(req, copy));
+        }
+        return resp;
+      });
     })
   );
 });
