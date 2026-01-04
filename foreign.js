@@ -1,227 +1,142 @@
-const LS_THEME = "v52_theme";
-const $ = (id) => document.getElementById(id);
+const DATA_URL = "./data/foreign-affairs.json";
 
-const searchEl = $("search");
-const filterEl = $("filter");
-const sortEl = $("sort");
+const searchInput = document.getElementById("search");
+const filterSelect = document.getElementById("filter");
+const sortSelect = document.getElementById("sort");
 
-const foreignResults = $("foreignResults");
-const definitionResults = $("definitionResults");
+const foreignResults = document.getElementById("foreignResults");
+const definitionResults = document.getElementById("definitionResults");
 
-const toggleThemeBtn = $("toggleThemeBtn");
-const noteBox = $("noteBox");
-// OPTIONAL: if your foreign.html has asOfText element, we won't use it
-const asOfText = $("asOfText");
+/* ---------- Date + freshness helpers ---------- */
 
-function setTheme(theme) {
-  document.body.dataset.theme = theme;
-  localStorage.setItem(LS_THEME, theme);
-  toggleThemeBtn.textContent = theme === "amber" ? "Green" : "Amber";
-}
-
-function loadTheme() {
-  const theme = localStorage.getItem(LS_THEME) || "green";
-  setTheme(theme);
-}
-
-toggleThemeBtn?.addEventListener("click", () => {
-  const current = localStorage.getItem(LS_THEME) || "green";
-  setTheme(current === "green" ? "amber" : "green");
-});
-
-function escapeHtml(s) {
-  return (s ?? "")
-    .toString()
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;");
-}
-
-async function fetchJson(path) {
-  // service-worker may cache app shell; data fetches should be fresh
-  const res = await fetch(path, { cache: "no-cache" });
-  if (!res.ok) throw new Error(`Failed to load ${path}`);
-  return res.json();
-}
-
-function matchesQuery(text, q) {
-  if (!q) return true;
-  return text.toLowerCase().includes(q.toLowerCase());
-}
-
-function matchesStatusFilter(status, filter) {
-  if (filter === "any") return true;
-  return (status || "").toLowerCase() === filter.toLowerCase();
-}
-
-function statusOrder(s) {
-  const v = (s || "").toLowerCase();
-  if (v === "enemy") return 0;
-  if (v === "hostile") return 1;
-  if (v === "neutral") return 2;
-  if (v === "allied") return 3;
-  return 9;
-}
-
-function parseISODate(iso) {
-  // expects YYYY-MM-DD
-  if (!iso || typeof iso !== "string") return null;
-  const m = iso.match(/^(\d{4})-(\d{2})-(\d{2})$/);
-  if (!m) return null;
-  const y = Number(m[1]);
-  const mo = Number(m[2]) - 1;
-  const d = Number(m[3]);
-  const dt = new Date(Date.UTC(y, mo, d)); // normalize to UTC midnight
-  return Number.isNaN(dt.getTime()) ? null : dt;
-}
-
-function daysSince(dateObj) {
-  if (!dateObj) return null;
+function daysBetween(dateStr){
+  if(!dateStr) return null;
+  const then = new Date(dateStr);
+  if (isNaN(then)) return null;
   const now = new Date();
-  // compare in UTC to avoid timezone surprises
-  const todayUTC = Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate());
-  const dateUTC = Date.UTC(dateObj.getUTCFullYear(), dateObj.getUTCMonth(), dateObj.getUTCDate());
-  const diffMs = todayUTC - dateUTC;
-  return Math.floor(diffMs / 86400000);
+  const diff = Math.floor((now - then) / (1000 * 60 * 60 * 24));
+  return diff;
 }
 
-function formatAsOf(iso) {
-  const dt = parseISODate(iso);
-  if (!dt) return "As of: Unknown";
-  // Render like: Jan 4, 2026
-  return `As of: ${dt.toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" })}`;
-}
-
-function freshnessBadge(iso) {
-  const dt = parseISODate(iso);
-  const age = daysSince(dt);
-
-  if (age === null) {
-    return `<span class="badge badge--unknown">NO DATE</span>`;
-  }
-
-  if (age <= 7) {
-    return `<span class="badge badge--fresh">FRESH</span>`;
-  }
-  if (age <= 30) {
-    return `<span class="badge badge--stale">STALE</span>`;
-  }
+function freshnessBadge(days){
+  if(days === null) return `<span class="badge badge--unknown">UNKNOWN</span>`;
+  if(days <= 7) return `<span class="badge badge--fresh">FRESH</span>`;
+  if(days <= 30) return `<span class="badge badge--stale">STALE</span>`;
   return `<span class="badge badge--old">OLD</span>`;
 }
 
-function cardHTML({ title, metaLeft, metaRight, body }) {
-  return `
-    <div class="history__item">
-      <div class="history__meta">
-        <span>${escapeHtml(metaLeft)}</span>
-        <span>${metaRight}</span>
-      </div>
-      <div class="history__text"><b>${escapeHtml(title)}</b><br>${escapeHtml(body)}</div>
-    </div>
-  `;
+function formatDate(dateStr){
+  if(!dateStr) return "Unknown";
+  const d = new Date(dateStr);
+  if(isNaN(d)) return "Unknown";
+  return d.toLocaleDateString(undefined, {
+    year: "numeric",
+    month: "short",
+    day: "numeric"
+  });
 }
+
+/* ---------- Rendering ---------- */
 
 let DATA = null;
 
-function render() {
-  if (!DATA) return;
-
-  const q = searchEl.value.trim();
-  const f = filterEl.value;
-  const sortMode = sortEl.value;
-
-  // Definitions
-  const defs = DATA.definitions || [];
-  definitionResults.innerHTML = defs.length
-    ? defs
-        .map((d) =>
-          cardHTML({
-            title: d.term,
-            metaLeft: "Definition",
-            metaRight: `<span class="badge badge--info">INFO</span>`,
-            body: d.meaning,
-          })
-        )
-        .join("")
-    : `<div class="muted">No definitions found.</div>`;
-
-  // Factions
-  let items = (DATA.foreignAffairs || [])
-    .filter((x) => matchesStatusFilter(x.status, f))
-    .filter((x) =>
-      matchesQuery(
-        `${x.name} ${x.status} ${x.notes ?? ""} ${x.owner ?? ""} ${x.asOf ?? ""}`,
-        q
-      )
-    );
-
-  if (sortMode === "name") {
-    items.sort((a, b) => (a.name || "").localeCompare(b.name || ""));
-  } else if (sortMode === "updated") {
-    // newest (lowest age) first, unknown last
-    items.sort((a, b) => {
-      const da = daysSince(parseISODate(a.asOf));
-      const db = daysSince(parseISODate(b.asOf));
-      if (da === null && db === null) return (a.name || "").localeCompare(b.name || "");
-      if (da === null) return 1;
-      if (db === null) return -1;
-      if (da !== db) return da - db;
-      return (a.name || "").localeCompare(b.name || "");
-    });
-  } else {
-    // default: by status then name
-    items.sort((a, b) => {
-      const so = statusOrder(a.status) - statusOrder(b.status);
-      if (so !== 0) return so;
-      return (a.name || "").localeCompare(b.name || "");
-    });
-  }
-
-  foreignResults.innerHTML = items.length
-    ? items
-        .map((x) => {
-          const statusUpper = String(x.status || "").toUpperCase();
-          const metaRight = `
-            ${freshnessBadge(x.asOf)}
-            <span class="badge badge--status">${escapeHtml(statusUpper)}</span>
-          `;
-
-          const bodyLines = [];
-          bodyLines.push(formatAsOf(x.asOf));
-          if (x.owner) bodyLines.push(`Owner/Ref: ${x.owner}`);
-          if (x.notes) bodyLines.push(x.notes);
-
-          return cardHTML({
-            title: x.name,
-            metaLeft: "Faction Record",
-            metaRight,
-            body: bodyLines.join("\n"),
-          });
-        })
-        .join("")
-    : `<div class="muted">No matches.</div>`;
+function renderDefinitions(defs){
+  definitionResults.innerHTML = "";
+  defs.forEach(d => {
+    const el = document.createElement("div");
+    el.className = "history__item";
+    el.innerHTML = `
+      <div class="history__meta">
+        <strong>${d.term}</strong>
+      </div>
+      <div class="history__text">${d.meaning}</div>
+    `;
+    definitionResults.appendChild(el);
+  });
 }
 
-async function init() {
-  loadTheme();
+function renderFactions(){
+  const q = searchInput.value.toLowerCase();
+  const filter = filterSelect.value;
+  const sort = sortSelect.value;
 
-  DATA = await fetchJson("./data/foreign-affairs.json");
+  let list = [...DATA.foreignAffairs];
 
-  if (asOfText) {
-    asOfText.textContent = "Per-entry dates enabled";
+  /* filter */
+  if(filter !== "any"){
+    list = list.filter(f => f.status.toLowerCase() === filter);
   }
-  if (noteBox) {
-    noteBox.textContent = DATA.note || "";
+
+  /* search */
+  if(q){
+    list = list.filter(f =>
+      f.name.toLowerCase().includes(q) ||
+      (f.owner || "").toLowerCase().includes(q) ||
+      (f.notes || "").toLowerCase().includes(q)
+    );
   }
 
-  [searchEl, filterEl, sortEl].forEach((el) => {
-    el.addEventListener("input", render);
-    el.addEventListener("change", render);
+  /* sort */
+  if(sort === "name"){
+    list.sort((a,b) => a.name.localeCompare(b.name));
+  }
+  else if(sort === "updated"){
+    list.sort((a,b) => {
+      const da = daysBetween(a.asOf);
+      const db = daysBetween(b.asOf);
+      if(da === null && db === null) return 0;
+      if(da === null) return 1;
+      if(db === null) return -1;
+      return da - db; // most recent first
+    });
+  }
+  else {
+    const order = { allied:1, neutral:2, hostile:3, enemy:4 };
+    list.sort((a,b) =>
+      (order[a.status.toLowerCase()] || 99) -
+      (order[b.status.toLowerCase()] || 99)
+    );
+  }
+
+  foreignResults.innerHTML = "";
+
+  list.forEach(f => {
+    const days = daysBetween(f.asOf);
+    const item = document.createElement("div");
+    item.className = "history__item";
+
+    item.innerHTML = `
+      <div class="history__meta">
+        <span>
+          <strong>${f.name}</strong>
+          ${f.owner ? ` — ${f.owner}` : ""}
+        </span>
+        <span>
+          <span class="badge badge--status">${f.status.toUpperCase()}</span>
+          ${freshnessBadge(days)}
+        </span>
+      </div>
+
+      <div class="history__text">
+        <strong>As of:</strong> ${formatDate(f.asOf)}
+        ${f.notes ? `<br><strong>Notes:</strong> ${f.notes}` : ""}
+      </div>
+    `;
+
+    foreignResults.appendChild(item);
+  });
+}
+
+/* ---------- Load + Events ---------- */
+
+fetch(DATA_URL)
+  .then(r => r.json())
+  .then(json => {
+    DATA = json;
+    renderDefinitions(DATA.definitions || []);
+    renderFactions();
   });
 
-  render();
-}
-
-init().catch(() => {
-  foreignResults.innerHTML = `<div class="muted">Failed to load data files.</div>`;
-});
+searchInput.addEventListener("input", renderFactions);
+filterSelect.addEventListener("change", renderFactions);
+sortSelect.addEventListener("change", renderFactions);
