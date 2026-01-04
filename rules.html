@@ -7,7 +7,7 @@
   <link rel="manifest" href="./manifest.webmanifest" />
   <link rel="icon" href="./icons/icon-192.svg" type="image/svg+xml" />
   <link rel="stylesheet" href="./styles.css" />
-  <title>V52 Rules Terminal</title>
+  <title>V52 Rules</title>
 </head>
 
 <body>
@@ -17,97 +17,342 @@
   <header class="topbar">
     <div class="brand">
       <div class="brand__title">VAULT 52 RULES TERMINAL</div>
-      <div class="brand__sub">Quick reference • Searchable • Copy-friendly</div>
+      <div class="brand__sub">Quick reference • Logging formats • Key regulations</div>
     </div>
 
     <div class="topbar__actions">
       <a class="btn btn--ghost" href="./index.html">Logs</a>
       <a class="btn btn--ghost" href="./foreign.html">Foreign Affairs</a>
       <a class="btn btn--ghost" href="./documents.html">Public Docs</a>
-      <button id="toggleThemeBtn" class="btn btn--ghost" type="button" title="Toggle Amber/Green">Amber</button>
+      <button id="toggleThemeBtn" class="btn btn--ghost" type="button">Amber</button>
     </div>
   </header>
 
   <main class="layout" style="grid-template-columns: 1fr;">
     <section class="panel">
       <div class="panel__header">
-        <div class="panel__title">SEARCH</div>
-        <div class="panel__meta">Type anything: faction name, status, rule keyword</div>
+        <div class="panel__title">RULES LOOKUP</div>
+        <div class="panel__meta" id="asOfText">Public reference • Use search to find what you need fast</div>
       </div>
 
       <div class="panel__body">
+        <!-- Controls -->
         <div class="grid">
           <label class="field" style="grid-column: 1 / -1;">
-            <span>Search</span>
-            <input id="search" type="text" placeholder="Search rules, factions, blacklists…" autocomplete="off" />
+            <span>Search (keywords)</span>
+            <input id="search" type="text" placeholder="e.g., detain, jail cap, KOS, patrol, threats, logs…" autocomplete="off" />
           </label>
 
           <label class="field">
             <span>Section</span>
-            <select id="section">
-              <option value="all">All</option>
-              <option value="foreign">Foreign Affairs</option>
-              <option value="definitions">Definitions</option>
-              <option value="rules">Vault Rules (Quick)</option>
-              <option value="blacklists">Blacklists</option>
+            <select id="filter">
+              <option value="any">Any</option>
+              <option value="important-links">Important Links</option>
+              <option value="security-decorum">Security Decorum</option>
+              <option value="general-rules">General Rules</option>
+              <option value="force-levels">Force Levels</option>
+              <option value="detain-tool">Detain Tool</option>
+              <option value="threat-levels">Vault Threat Levels</option>
+              <option value="area-restrictions">Area Restrictions</option>
+              <option value="logging-formats">Logging Formats</option>
+              <option value="vault-regulations">Vault Regulations</option>
             </select>
           </label>
 
           <label class="field">
-            <span>Show Only</span>
-            <select id="filter">
-              <option value="any">Any</option>
-              <option value="allied">Allied</option>
-              <option value="neutral">Neutral</option>
-              <option value="hostile">Hostile</option>
-              <option value="enemy">Enemy</option>
+            <span>View</span>
+            <select id="sort">
+              <option value="default">Recommended</option>
+              <option value="all">Show All</option>
+              <option value="compact">Compact</option>
             </select>
           </label>
         </div>
 
         <div class="divider"></div>
 
-        <div class="panel__header panel__header--inner">
-          <div class="panel__title">FOREIGN AFFAIRS</div>
-          <div class="panel__meta">Statuses can change at any time</div>
+        <!-- Results container (rules.js can optionally fill/replace this) -->
+        <div id="rulesResults" class="history" style="max-height: 720px; overflow:auto;">
+          <!-- IMPORTANT LINKS -->
+          <div class="history__item" data-section="important-links" data-tags="links trello laws blacklists application exam">
+            <div class="history__meta">
+              <span>Important Links</span>
+              <span class="badge badge--info">PUBLIC</span>
+            </div>
+            <div class="history__text">
+              <b>Vault Blacklists:</b> https://trello.com/b/dkk0jEQJ/v52-vault-blacklists
+              <br><b>Vault Laws:</b> https://trello.com/b/4TuCRbuQ/v52-vault-laws
+              <br><b>Security Application:</b> https://forms.gle/2nz1h2eh44ALGtX38
+              <br><b>Security Exam:</b> https://forms.gle/dPe9YKVouSQrZ1Yz6
+              <br><br><span class="muted">Note: Taking the exam without being permitted may permanently blacklist you from Security.</span>
+            </div>
+          </div>
+
+          <!-- SECURITY DECORUM -->
+          <div class="history__item" data-section="security-decorum" data-tags="decorum grammar temper sir maam off duty zones">
+            <div class="history__meta">
+              <span>Security Decorum</span>
+              <span class="badge badge--status">STANDARD</span>
+            </div>
+            <div class="history__text">
+              <b>On-duty conduct:</b> Use best grammar, keep a leveled temper, handle situations professionally.
+              <br><b>Reporting:</b> If you witness improper conduct by Security, report to SD staff.
+              <br><b>Off-duty:</b> If you’re off duty / on another team, you are not permitted in Security-only zones.
+              <br><b>Address:</b> It’s customary to address Security by rank; Lieutenant+ as “Sir/Ma’am.”
+            </div>
+          </div>
+
+          <!-- GENERAL RULES -->
+          <div class="history__item" data-section="general-rules" data-tags="general rules revenge killing border warning shot mining territory quota strike bullets fusion cells">
+            <div class="history__meta">
+              <span>General Rules (Security)</span>
+              <span class="badge badge--status">ON DUTY</span>
+            </div>
+            <div class="history__text">
+              • No revenge killing.
+              <br>• Unauthorized inside Vault: verbal warning to leave, then lethal may be taken if needed.
+              <br>• Border: warning shot first; after that lethal may be taken if they attempt to cross.
+              <br>• Do not leave Vault-Tec Territory while on duty unless ordered; mining is not permitted while on duty.
+              <br>• Orders from Sergeant+ must be followed (unless unlawful/abusive—report it).
+              <br>• Monthly allocation: 50,000 bullets and 10,000 fusion cells.
+              <br>• Weekly quota must be filled; misses can escalate to strikes / removal per policy.
+              <br><br><span class="muted">Warnings typically clear after one month (per handbook). If one doesn’t clear, report to Major+.</span>
+            </div>
+          </div>
+
+          <!-- FORCE LEVELS -->
+          <div class="history__item" data-section="force-levels" data-tags="verbal non lethal lethal force levels">
+            <div class="history__meta">
+              <span>Force Levels</span>
+              <span class="badge badge--info">REFERENCE</span>
+            </div>
+            <div class="history__text">
+              <b>Verbal:</b> Talk first whenever possible—issue a clear verbal warning before action.
+              <br><b>Non-Lethal:</b> Detain/arrest when the suspect is a potential threat or refuses lawful demands.
+              <br><b>Lethal:</b> Only when absolutely necessary—immediate threat to others or unauthorized inside the Vault.
+            </div>
+          </div>
+
+          <!-- DETAIN TOOL -->
+          <div class="history__item" data-section="detain-tool" data-tags="detain tool abuse acceptable immobilize exploiters glitched players vault dwellers">
+            <div class="history__meta">
+              <span>Detain Tool Rules</span>
+              <span class="badge badge--status">S2+</span>
+            </div>
+            <div class="history__text">
+              <b>Allowed uses:</b> lawful sanctions, helping HR events, immobilizing exploiters, helping glitched players.
+              <br><b>Forbidden:</b> Any other use is considered abuse and can lead to tool removal/suspension/removal from SD.
+              <br><b>Targeting:</b> Typically used on Vault Dwellers; only rare exceptions apply.
+            </div>
+          </div>
+
+          <!-- THREAT LEVELS -->
+          <div class="history__item" data-section="threat-levels" data-tags="threat levels low medium high raiders backup request evacuate border">
+            <div class="history__meta">
+              <span>Vault Threat Levels</span>
+              <span class="badge badge--info">OPERATIONAL</span>
+            </div>
+            <div class="history__text">
+              <b>Low:</b> 0–2 raiders → regular patrol/protect/enforce.
+              <br><b>Medium:</b> 3–4 raiders OR faction rally → request backup in Discord (#backup-request), advise authorized to stay safe.
+              <br><b>High:</b> 5+ raiders OR faction rally OR special event focus → request backup; advise evacuation outside VTT until threat lowers.
+              <br><br><span class="muted">During High threat, Security should not cross the border unless Lieutenant+ permission is given.</span>
+            </div>
+          </div>
+
+          <!-- AREA RESTRICTIONS -->
+          <div class="history__item" data-section="area-restrictions" data-tags="area restrictions vtt vault territory signs">
+            <div class="history__meta">
+              <span>Area Restrictions</span>
+              <span class="badge badge--info">PATROL</span>
+            </div>
+            <div class="history__text">
+              Security operates within:
+              <br>• Inside the Vault
+              <br>• The area covering the Vault
+              <br>• All of VTT (Vault-Tec Territory)
+              <br><br><span class="muted">Watch for signage indicating where Vault-Tec Territory ends.</span>
+            </div>
+          </div>
+
+          <!-- LOGGING FORMATS -->
+          <div class="history__item" data-section="logging-formats" data-tags="logging formats patrol log backup request inactivity discharge event log proof screenshots stopwatch">
+            <div class="history__meta">
+              <span>Logging Formats (Discord)</span>
+              <span class="badge badge--status">COPY/PASTE</span>
+            </div>
+            <div class="history__text">
+              <b>Backup Request</b>
+              <br>Username (In-game @):
+              <br>Priority:
+              <br>Additional Notes:
+              <br>@Backup Request
+              <br><span class="muted">Priority: Medium = 3–4 raiders • High = 5+ raiders</span>
+              <br><br><b>Patrol Log</b>
+              <br>Username (In-game @):
+              <br>Security Rank:
+              <br>Patrol Duration:
+              <br>Proof:
+              <br><span class="muted">2 screenshots (before/after) showing time + leaderboard, or !STOPWATCH.</span>
+              <br><br><b>Inactivity Log</b>
+              <br>Username (In-game @):
+              <br>Security Rank:
+              <br>Length of Inactivity:
+              <br>Reason:
+              <br><br><b>Discharge Request</b>
+              <br>Username (In-game @):
+              <br>Security Rank:
+              <br>Date of Discharge:
+              <br>Reason:
+              <br><br><b>Event Log</b>
+              <br>Host (Discord @):
+              <br>Co-Host’s (Discord @):
+              <br>Supervisor (Discord @):
+              <br>Event Type:
+              <br>Notes: (Optional)
+              <br>Proof:
+            </div>
+          </div>
+
+          <!-- VAULT REGULATIONS (SUMMARY + TABLE) -->
+          <div class="history__item" data-section="vault-regulations" data-tags="vault regulations jail cap rk sk resisting arrest restricted zones tos threatening">
+            <div class="history__meta">
+              <span>Vault Regulations (Quick)</span>
+              <span class="badge badge--status">ENFORCEMENT</span>
+            </div>
+            <div class="history__text">
+              <b>Jailtime cap:</b> 15 minutes (do not exceed unless waiting for Corporate).
+              <br><b>Non-Vault-Dwellers:</b> jailing is not permitted (per handbook).
+              <br><br>
+              <table style="width:100%; border-collapse:collapse; font-size:12px;">
+                <thead>
+                  <tr>
+                    <th style="text-align:left; padding:6px; border-bottom:1px solid var(--border);">Offense</th>
+                    <th style="text-align:left; padding:6px; border-bottom:1px solid var(--border);">Action</th>
+                    <th style="text-align:left; padding:6px; border-bottom:1px solid var(--border);">Time</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td style="padding:6px; border-bottom:1px solid var(--border);">Random Killing (RK)</td>
+                    <td style="padding:6px; border-bottom:1px solid var(--border);">Jail</td>
+                    <td style="padding:6px; border-bottom:1px solid var(--border);">+2m per player slain</td>
+                  </tr>
+                  <tr>
+                    <td style="padding:6px; border-bottom:1px solid var(--border);">Spawn Killing (SK)</td>
+                    <td style="padding:6px; border-bottom:1px solid var(--border);">Jail</td>
+                    <td style="padding:6px; border-bottom:1px solid var(--border);">Indefinite until Corporate arrives</td>
+                  </tr>
+                  <tr>
+                    <td style="padding:6px; border-bottom:1px solid var(--border);">Raiding / Interrupting patrol/event</td>
+                    <td style="padding:6px; border-bottom:1px solid var(--border);">Jail</td>
+                    <td style="padding:6px; border-bottom:1px solid var(--border);">5m (call Corporate on 2nd offense)</td>
+                  </tr>
+                  <tr>
+                    <td style="padding:6px; border-bottom:1px solid var(--border);">Resisting Arrest</td>
+                    <td style="padding:6px; border-bottom:1px solid var(--border);">Jail</td>
+                    <td style="padding:6px; border-bottom:1px solid var(--border);">+2m per evasion (call Corporate on 2nd)</td>
+                  </tr>
+                  <tr>
+                    <td style="padding:6px; border-bottom:1px solid var(--border);">Restricted Zones</td>
+                    <td style="padding:6px; border-bottom:1px solid var(--border);">Warn → Jail</td>
+                    <td style="padding:6px; border-bottom:1px solid var(--border);">3m if not compliant (doubles on repeat)</td>
+                  </tr>
+                  <tr>
+                    <td style="padding:6px;">ToS / Verbally Offensive</td>
+                    <td style="padding:6px;">Jail</td>
+                    <td style="padding:6px;">Indefinite until Corporate arrives</td>
+                  </tr>
+                </tbody>
+              </table>
+
+              <br><span class="muted">If unsure, ask HR / higher-ranking Security. Report Security misconduct to Major+.</span>
+            </div>
+          </div>
+
+          <!-- Optional: expandable “full text” sections (keeps page clean) -->
+          <div class="history__item" data-section="general-rules" data-tags="details expanded faq">
+            <div class="history__meta">
+              <span>Expandable Notes</span>
+              <span class="badge badge--info">DETAILS</span>
+            </div>
+            <div class="history__text">
+              <details>
+                <summary style="cursor:pointer;">Click to expand: Reminders</summary>
+                <div style="margin-top:10px;">
+                  • If a conversation about a log is needed, create a public thread on the log message and discuss there (per handbook).
+                  <br>• Keep patrol proof requirements in mind (screenshots or !STOPWATCH).
+                  <br>• Use the Logs terminal to generate formats quickly.
+                </div>
+              </details>
+            </div>
+          </div>
+
         </div>
-        <div id="foreignResults" class="history" style="max-height: 420px; overflow:auto;"></div>
 
         <div class="divider"></div>
 
-        <div class="panel__header panel__header--inner">
-          <div class="panel__title">DEFINITIONS</div>
-          <div class="panel__meta">What each status means</div>
-        </div>
-        <div id="definitionResults" class="history" style="max-height: 260px; overflow:auto;"></div>
-
-        <div class="divider"></div>
-
-        <div class="panel__header panel__header--inner">
-          <div class="panel__title">VAULT RULES (QUICK)</div>
-          <div class="panel__meta">Lightweight reference (expand later)</div>
-        </div>
-        <div id="ruleResults" class="history" style="max-height: 320px; overflow:auto;"></div>
-
-        <div class="divider"></div>
-
-        <div class="panel__header panel__header--inner">
-          <div class="panel__title">BLACKLISTS</div>
-          <div class="panel__meta">External reference</div>
-        </div>
-
-        <div class="hint">
-          Official blacklists are maintained here:
-          <br />
-          <a class="btn btn--ghost" href="https://trello.com/b/dkk0jEQJ/v52-vault-blacklists" target="_blank" rel="noreferrer">Open Trello Blacklists</a>
-          <br /><br />
-          If you later want a *public* “quick search” blacklist on this site, we can add a JSON list — but only if SD leadership approves publishing it.
+        <div class="hint" id="noteBox">
+          Tip: Use the dropdown to jump to a section, or search keywords like “detain”, “jail cap”, “backup request”, “RK”, “SK”.
         </div>
       </div>
     </section>
   </main>
-  
+
+  <!-- Shared theme toggle -->
   <script src="./theme.js"></script>
+
+  <!-- Optional: if you already have rules.js, it can enhance filtering/search;
+       this HTML works even without it. -->
   <script src="./rules.js"></script>
+
+  <!-- Lightweight fallback filtering (won't conflict unless rules.js also binds same IDs heavily).
+       If rules.js exists and you prefer ONLY that, you can delete this block. -->
+  <script>
+    (function(){
+      const search = document.getElementById("search");
+      const filter = document.getElementById("filter");
+      const view = document.getElementById("sort");
+      const box = document.getElementById("rulesResults");
+      if(!search || !filter || !view || !box) return;
+
+      const items = Array.from(box.querySelectorAll(".history__item"));
+
+      function apply(){
+        const q = (search.value || "").trim().toLowerCase();
+        const f = filter.value;
+        const mode = view.value;
+
+        items.forEach(el => {
+          const section = (el.getAttribute("data-section") || "").toLowerCase();
+          const tags = (el.getAttribute("data-tags") || "").toLowerCase();
+          const text = (el.innerText || "").toLowerCase();
+
+          const matchFilter = (f === "any") || (section === f);
+          const matchSearch = !q || text.includes(q) || tags.includes(q);
+
+          el.style.display = (matchFilter && matchSearch) ? "" : "none";
+
+          // compact mode (just makes long tables/blocks less huge)
+          if(mode === "compact"){
+            el.style.padding = "";
+            el.querySelectorAll("table").forEach(t => t.style.display = "none");
+          } else {
+            el.querySelectorAll("table").forEach(t => t.style.display = "");
+          }
+        });
+
+        // show all forces filter to any
+        if(mode === "all"){
+          filter.value = "any";
+          items.forEach(el => { el.style.display = ""; });
+        }
+      }
+
+      search.addEventListener("input", apply);
+      filter.addEventListener("change", apply);
+      view.addEventListener("change", apply);
+    })();
+  </script>
 </body>
 </html>
