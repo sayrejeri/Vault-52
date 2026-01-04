@@ -150,10 +150,11 @@ function renderFactions(){
     const days = daysSince(f.asOf);
     const badge = freshnessBadge(days);
 
-    const metaRight = `
-      <span class="badge badge--status">${statusLabel(f.status)}</span>
+     const metaRight = `
+      <span class="badge badge--status badge--${f.status}">${statusLabel(f.status)}</span>
       ${badge}
     `;
+
 
     const bodyLines = [];
     bodyLines.push(formatAsOf(f.asOf));
@@ -167,7 +168,10 @@ function renderFactions(){
         <span>Faction Record</span>
         <span>${metaRight}</span>
       </div>
-      <div class="history__text"><b>${esc(f.name)}</b><br>${esc(bodyLines.join("\n"))}</div>
+      <div class="history__text">
+        <span class="faction-name faction-name--${esc(f.status)}">${esc(f.name)}</span><br>
+        ${esc(bodyLines.join("\n"))}
+      </div>
     `;
     foreignResults.appendChild(item);
   });
