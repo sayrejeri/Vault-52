@@ -1,101 +1,22 @@
 {
-  "asOf": "JAN 03",
-  "note": "Statuses can change at any time, even if the faction owner does not request them. Both official and unofficial factions may be listed.",
+  "asOf": "DEC 30",
+  "note": "Statuses can change at any time even if the faction owner doesn't request them to be. Note that both Official and Unofficial factions are listed.",
   "definitions": [
-    {
-      "term": "Neutral",
-      "meaning": "They need to be authorized in order to enter the Vault."
-    },
-    {
-      "term": "Allied",
-      "meaning": "Can freely enter the Vault without authorization and will be protected from the Vault."
-    },
-    {
-      "term": "Hostile",
-      "meaning": "Reserved for factions who raid frequently. They are not permitted to enter the Vault at any time. NOT KOS."
-    },
-    {
-      "term": "Enemy",
-      "meaning": "They are considered KOS by Vault Security and other Vault officials."
-    }
+    { "term": "Neutral", "meaning": "They need to be authorized in order to enter the Vault." },
+    { "term": "Allied", "meaning": "Can freely enter the Vault without authorization and will be protected from the Vault." },
+    { "term": "Hostile", "meaning": "Reserved for factions who raid frequently. They are not permitted to enter the Vault at any times. NOT KOS" },
+    { "term": "Enemies", "meaning": "They are considered by Vault Security and any other Vault official KOS" }
   ],
   "foreignAffairs": [
-    {
-      "name": "The Enclave (Richclave)",
-      "status": "Neutral",
-      "owner": "Richclave",
-      "notes": "Neutral faction."
-    },
-    {
-      "name": "The Enclave Marine Corp (Jeffclave)",
-      "status": "Neutral",
-      "owner": "Jeffclave",
-      "notes": "Neutral faction."
-    },
-    {
-      "name": "The Caesar's Legion [V52]",
-      "status": "Neutral",
-      "owner": "",
-      "notes": "Neutral faction."
-    },
-    {
-      "name": "The Talon Company (William)",
-      "status": "Allied",
-      "owner": "William",
-      "notes": "Allied faction."
-    },
-    {
-      "name": "Elysion",
-      "status": "Neutral",
-      "owner": "",
-      "notes": "Neutral faction."
-    },
-    {
-      "name": "Big MT Research Facility",
-      "status": "Neutral",
-      "owner": "",
-      "notes": "Neutral faction."
-    },
-    {
-      "name": "The Brotherhood of Steel (Syncz)",
-      "status": "Neutral",
-      "owner": "Syncz",
-      "notes": "Neutral faction."
-    },
-    {
-      "name": "New Californian Republic",
-      "status": "Enemy",
-      "owner": "",
-      "notes": "Enemy Faction."
-    },
-    {
-      "name": "The Brotherhood of Gold",
-      "status": "Neutral",
-      "owner": "",
-      "notes": "Neutral — good friends."
-    },
-    {
-      "name": "The Brotherhood of Steel (hjonks)",
-      "status": "Allied",
-      "owner": "hjonks",
-      "notes": "Allied Faction."
-    }
-  ],
-  "quickRules": [
-    {
-      "title": "Jail Time Cap",
-      "details": "Jailtime cap is 15 minutes and must not exceed this unless waiting for Corporate to arrive.",
-      "tags": ["enforcement", "jail"]
-    },
-    {
-      "title": "Detain Tool Use",
-      "details": "Detain tool is for lawful sanctions, HR event support, immobilizing exploiters, or helping glitched players. Abuse is punishable.",
-      "tags": ["tools", "policy"]
-    },
-    {
-      "title": "Border Procedure",
-      "details": "Unauthorized players crossing border: warning shot, then lethal action may be taken if they continue.",
-      "tags": ["border", "force"]
-    }
+    { "name": "The Enclave (Richclave)", "status": "Allied", "owner": "Richclave", "notes": "Allied faction." },
+    { "name": "The Enclave Marine Corp (Jeffclave)", "status": "Neutral", "owner": "Jeffclave", "notes": "Neutral faction." },
+    { "name": "The Caesar's Legion [V52]", "status": "Neutral", "owner": "", "notes": "Neutral faction." },
+    { "name": "The Talon Company (William)", "status": "Allied", "owner": "William", "notes": "Allied faction." },
+    { "name": "Elysion", "status": "Neutral", "owner": "", "notes": "Neutral faction." },
+    { "name": "Big MT Research Facility", "status": "Neutral", "owner": "", "notes": "Neutral faction." },
+    { "name": "The Brotherhood of Steel (Syncz)", "status": "Neutral", "owner": "Syncz", "notes": "Neutral faction." },
+    { "name": "New Californian Republic", "status": "Neutral", "owner": "", "notes": "Neutral faction." },
+    { "name": "The Brotherhood of Gold", "status": "Neutral", "owner": "", "notes": "Neutral - Good friends." },
+    { "name": "The Brotherhood of Steel (hjonks)", "status": "Hostile", "owner": "hjonks", "notes": "Hostile faction." }
   ]
 }
