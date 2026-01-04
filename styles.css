@@ -325,13 +325,26 @@ body{
 .badge--info{ opacity:0.85; }
 .badge--status{ opacity:0.95; }
 
-/* Theme-aware colors (no hard colors needed): use your terminal accent variables if you have them */
-body[data-theme="green"] .badge--fresh{ color: var(--accent, #79ff9a); }
-body[data-theme="green"] .badge--stale{ color: var(--accent2, #ffd86a); }
-body[data-theme="green"] .badge--old{ color: var(--danger, #ff6b6b); }
-body[data-theme="green"] .badge--unknown{ color: var(--muted, #8aa08f); }
+/* Theme-aware badge colors using YOUR variables */
+.badge--fresh{ color: var(--accent); }
+.badge--stale{ color: var(--muted); }
+.badge--old{ color: var(--text); border-color: var(--danger-border); }
+.badge--unknown{ color: var(--muted); opacity: .85; }
 
-body[data-theme="amber"] .badge--fresh{ color: var(--accent, #ffd86a); }
-body[data-theme="amber"] .badge--stale{ color: var(--accent2, #ffd86a); }
-body[data-theme="amber"] .badge--old{ color: var(--danger, #ff6b6b); }
-body[data-theme="amber"] .badge--unknown{ color: var(--muted, #a8966d); }
+/* Make OLD pop a bit more without hardcoding colors */
+.badge--old{
+  background: rgba(255, 90, 90, .08);
+}
+body[data-theme="amber"] .badge--old{
+  background: rgba(255, 90, 90, .10);
+}
+
+/* Status badge stays readable */
+.badge--status{
+  color: var(--text);
+  opacity: .9;
+}
+.badge--info{
+  color: var(--muted);
+  opacity: .9;
+}
