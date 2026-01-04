@@ -96,13 +96,6 @@
   </main>
   
   <script src="./theme.js"></script>
-  <script>
-    const LS_THEME = "v52_theme";
-    const btn = document.getElementById("toggleThemeBtn");
-    function setTheme(t){ document.body.dataset.theme=t; localStorage.setItem(LS_THEME,t); btn.textContent=t==="amber"?"Green":"Amber"; }
-    const current = localStorage.getItem(LS_THEME)||"green";
-    setTheme(current);
-    btn.addEventListener("click",()=>setTheme((localStorage.getItem(LS_THEME)||"green")==="green"?"amber":"green"));
-  </script>
+  
 </body>
 </html>
