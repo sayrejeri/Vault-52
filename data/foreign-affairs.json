@@ -7,15 +7,16 @@
     { "term": "Enemies", "meaning": "They are considered by Vault Security and any other Vault official KoS." }
   ],
   "foreignAffairs": [
-    { "name": "The Enclave Marine Corp (Jeffclave)", "status": "neutral", "owner": "Jeffclave", "asOf": "2025-12-30", "notes": "" },
-    { "name": "The Enclave (Richclave)", "status": "neutral", "owner": "Richclave", "asOf": "2025-12-30", "notes": "" },
-    { "name": "The Caesar's Legion [V52]", "status": "neutral", "owner": "", "asOf": "2025-12-30", "notes": "" },
-    { "name": "The Talon Company (William)", "status": "allied", "owner": "William", "asOf": "2025-12-30", "notes": "" },
-    { "name": "Elysion", "status": "neutral", "owner": "", "asOf": "2025-12-30", "notes": "" },
-    { "name": "Big MT Research Facility", "status": "neutral", "owner": "", "asOf": "2025-12-30", "notes": "" },
-    { "name": "The Brotherhood of Steel (Syncz)", "status": "neutral", "owner": "Syncz", "asOf": "2025-12-30", "notes": "" },
-    { "name": "The Brotherhood of Gold", "status": "neutral", "owner": "", "asOf": "2025-12-30", "notes": "Good friends." },
-    { "name": "The Brotherhood of Steel (hjonks)", "status": "allied", "owner": "hjonks", "asOf": "2025-12-30", "notes": "" },
-    { "name": "New Californian Republic", "status": "enemy", "owner": "", "asOf": "2025-12-30", "notes": "" }
+    { "name": "The Enclave Marine Corp (Jeffclave)", "status": "neutral", "owner": "Jeffclave", "asOf": "2025-01-05", "notes": "" },
+    { "name": "The Enclave (Richclave)", "status": "neutral", "owner": "Richclave", "asOf": "2025-01-05", "notes": "" },
+    { "name": "The Caesar's Legion [V52]", "status": "neutral", "owner": "", "asOf": "2025-01-05", "notes": "" },
+    { "name": "The Talon Company (William)", "status": "allied", "owner": "William", "asOf": "2025-01-05", "notes": "" },
+    { "name": "Elysion", "status": "neutral", "owner": "", "asOf": "2025-01-05", "notes": "" },
+    { "name": "Big MT Research Facility", "status": "neutral", "owner": "", "asOf": "2025-01-05", "notes": "" },
+    { "name": "The Brotherhood of Steel (Syncz)", "status": "neutral", "owner": "Syncz", "asOf": "2025-01-05", "notes": "" },
+    { "name": "The Brotherhood of Gold", "status": "neutral", "owner": "", "asOf": "2025-01-05", "notes": "Good friends." },
+    { "name": "The Brotherhood of Steel (hjonks)", "status": "enemies", "owner": "hjonks", "asOf": "2025-01-05", "notes": "KOS" },
+    { "name": "New Californian Republic", "status": "neutral", "owner": "WOLF", "asOf": "2025-01-05", "notes": "" },
+    { "name": "New Californian Republic", "status": "neutral", "owner": "CIA", "asOf": "2025-01-05", "notes": "" }
   ]
 }
