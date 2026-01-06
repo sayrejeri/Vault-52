@@ -28,7 +28,7 @@ Offline support is included via service worker caching.
 This project was created and is maintained by members of the **Vault 52 community**, with the goal of improving day-to-day operations, consistency, and usability for Security and staff.
 
 **Project Lead / Implementation**
-- **SayreJeri** — Concept, design, development, UI/UX, and ongoing maintenance
+- **Sayrejeri** — Concept, design, development, UI/UX, and ongoing maintenance
 
 **Documentation & Source Material**
 - **Jxst_Ink** — Security handbooks, event handbooks, procedures, and policy documentation
