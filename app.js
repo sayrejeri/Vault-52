@@ -29,7 +29,7 @@ const patrolSection = $("patrolSection");
 const backupSection = $("backupSection");
 const inactivitySection = $("inactivitySection");
 const dischargeSection = $("dischargeSection");
-const ammoSection = $("ammoSection");
+const resourceSection = $("resourceSection");
 
 const timerText = $("timerText");
 const startStamp = $("startStamp");
@@ -50,11 +50,11 @@ const inactivityReason = $("inactivityReason");
 const dischargeDate = $("dischargeDate");
 const dischargeReason = $("dischargeReason");
 
-const ammoReason = $("ammoReason");
-const ammoCurrentProof = $("ammoCurrentProof");
-const ammoBullets = $("ammoBullets");
-const ammoCells = $("ammoCells");
-const ammoNote = $("ammoNote");
+const resourceReason = $("resourceReason");
+const resourceCurrentProof = $("resourceCurrentProof");
+const resourceBullets = $("resourceBullets");
+const resourceCells = $("resourceCells");
+const resourceNote = $("resourceNote");
 
 const generateBtn = $("generateBtn");
 const outputEl = $("output");
@@ -139,7 +139,7 @@ function modeSwitch(type) {
   backupSection.classList.toggle("hidden", type !== "backup");
   inactivitySection.classList.toggle("hidden", type !== "inactivity");
   dischargeSection.classList.toggle("hidden", type !== "discharge");
-  ammoSection.classList.toggle("hidden", type !== "ammo");
+  resourceSection.classList.toggle("hidden", type !== "resource");
 }
 
 function getSelectedTasks() {
@@ -153,9 +153,9 @@ function clampNumber(value, min, max) {
   return Math.min(max, Math.max(min, n));
 }
 
-function ensureAmmoLimits() {
-  ammoBullets.value = String(clampNumber(ammoBullets.value, 0, 1500));
-  ammoCells.value = String(clampNumber(ammoCells.value, 0, 500));
+function ensureresourceLimits() {
+  resourceBullets.value = String(clampNumber(resourceBullets.value, 0, 1500));
+  resourceCells.value = String(clampNumber(resourceCells.value, 0, 500));
 }
 
 function validateBasics() {
@@ -234,13 +234,13 @@ function generateOutput() {
     text += `Date of Discharge: ${date || "—"}\n`;
     text += `Reason: ${reason || "—"}\n`;
 
-  } else if (type === "ammo") {
-    ensureAmmoLimits();
-    const reason = ammoReason.value.trim();
-    const proof = ammoCurrentProof.value.trim();
-    const bullets = ammoBullets.value.trim() || "0";
-    const cells = ammoCells.value.trim() || "0";
-    const note = ammoNote.value.trim();
+  } else if (type === "resource") {
+    ensureresourceLimits();
+    const reason = resourceReason.value.trim();
+    const proof = resourceCurrentProof.value.trim();
+    const bullets = resourceBullets.value.trim() || "0";
+    const cells = resourceCells.value.trim() || "0";
+    const note = resourceNote.value.trim();
 
     text += `Name: ${username}\n`;
     text += `Rank: ${rank}\n`;
@@ -293,7 +293,7 @@ function renderHistory() {
       backup: "Backup",
       inactivity: "Inactivity",
       discharge: "Discharge",
-      ammo: "Ammo"
+      resource: "Resource"
     })[e.type] || e.type;
 
     return `
@@ -503,8 +503,8 @@ exportBtn.addEventListener("click", exportTxt);
 clearHistoryBtn.addEventListener("click", clearHistory);
 clearSavedBtn.addEventListener("click", clearSaved);
 
-/* Ammo limit enforcement */
-[ammoBullets, ammoCells].forEach(el => el.addEventListener("change", ensureAmmoLimits));
+/* Resource limit enforcement */
+[resourceBullets, resourceCells].forEach(el => el.addEventListener("change", ensureresourceLimits));
 
 /* PWA install */
 let deferredPrompt = null;
