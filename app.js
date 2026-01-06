@@ -535,3 +535,38 @@ loadBasics();
 modeSwitch(logTypeEl.value);
 renderHistory();
 loadPatrolState();
+
+// ---------------- Booth Script (Patrol Log) ----------------
+(function setupBoothScript() {
+  const boothPanel = document.getElementById("boothPanel");
+  if (!boothPanel) return;
+
+  // Change this ID ONLY if your dropdown has a different id
+  const typeSelect = document.getElementById("logType");
+
+  function copy(text) {
+    navigator.clipboard.writeText(text).catch(() => {
+      const ta = document.createElement("textarea");
+      ta.value = text;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand("copy");
+      ta.remove();
+    });
+  }
+
+  boothPanel.addEventListener("click", (e) => {
+    const btn = e.target.closest("[data-booth]");
+    if (!btn) return;
+    copy(btn.dataset.booth);
+  });
+
+  function updateVisibility() {
+    if (!typeSelect) return;
+    const isPatrol = typeSelect.value.toLowerCase().includes("patrol");
+    boothPanel.classList.toggle("hidden", !isPatrol);
+  }
+
+  typeSelect?.addEventListener("change", updateVisibility);
+  updateVisibility();
+})();
