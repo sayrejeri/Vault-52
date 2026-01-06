@@ -9,6 +9,7 @@ This project is built to feel like an authentic **Vault-Tec terminal** while rem
 
 ## 🌐 Live Site
 https://sayrejeri.github.io/Vault-52
+> If you have any questions my discord is `sayrejeri` or ingame name `ROBLOXjeremiahkorben`
 
 ## 📱 Install as an App (PWA)
 The terminal can be installed as a desktop or mobile app.
@@ -19,6 +20,27 @@ The terminal can be installed as a desktop or mobile app.
 3. Launch it like a native app (runs standalone)
 
 Offline support is included via service worker caching.
+
+---
+
+## 👥 Credits & Contributors
+
+This project was created and is maintained by members of the **Vault 52 community**, with the goal of improving day-to-day operations, consistency, and usability for Security and staff.
+
+**Project Lead / Implementation**
+- **SayreJeri** — Concept, design, development, UI/UX, and ongoing maintenance
+
+**Documentation & Source Material**
+- **Jxst_Ink** — Security handbooks, event handbooks, procedures, and policy documentation
+- **Void** — Security structure and procedural foundations
+- **AlexDeviation** — Formations guide and training documentation
+
+**Community & Testing**
+- Vault 52 Security Division members and staff who provided feedback, testing, and real-world usage insights. (Please DM me if anything is not suppose to be on here or if you have a suggestion.)
+
+---
+
+This terminal is a community-driven tool and will continue to evolve as procedures, policies, and needs change.
 
 ---
 
