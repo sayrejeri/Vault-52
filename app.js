@@ -153,10 +153,22 @@ function clampNumber(value, min, max) {
   return Math.min(max, Math.max(min, n));
 }
 
-function ensureresourceLimits() {
-  resourceBullets.value = String(clampNumber(resourceBullets.value, 0, 1500));
-  resourceCells.value = String(clampNumber(resourceCells.value, 0, 500));
+function ensureResourceLimits() {
+  // Monthly caps limit
+  if (resourceCaps) {
+    resourceCaps.value = clampNumber(resourceCaps.value, 0, 5000);
+  }
+
+  // Keep ammo limits
+  if (resourceBullets) {
+    resourceBullets.value = clampNumber(resourceBullets.value, 0, 1500);
+  }
+
+  if (resourceCells) {
+    resourceCells.value = clampNumber(resourceCells.value, 0, 500);
+  }
 }
+
 
 function validateBasics() {
   const u = usernameEl.value.trim();
@@ -235,7 +247,7 @@ function generateOutput() {
     text += `Reason: ${reason || "—"}\n`;
 
   } else if (type === "resource") {
-    ensureresourceLimits();
+    ensureResourceLimits();
     const reason = resourceReason.value.trim();
     const proof = resourceCurrentProof.value.trim();
     const bullets = resourceBullets.value.trim() || "0";
@@ -246,7 +258,7 @@ function generateOutput() {
     text += `Rank: ${rank}\n`;
     text += `Reason for Request: ${reason || "—"}\n`;
     text += `Current Bullet Count: ${proof || "(show picture proof)"}\n`;
-    text += `Amount Requesting: ${bullets} Bullets, ${cells} Fusion Cells\n`;
+    text += `Amount Requesting: ${bullets} Bullets, ${cells} Fusion Cells,\n`;
     text += `Note: ${note || "—"}\n`;
     text += `Limit 1.5k Bullets, and 500 Fusion Cells\n`;
   }
@@ -504,7 +516,9 @@ clearHistoryBtn.addEventListener("click", clearHistory);
 clearSavedBtn.addEventListener("click", clearSaved);
 
 /* Resource limit enforcement */
-[resourceBullets, resourceCells].forEach(el => el.addEventListener("change", ensureresourceLimits));
+[resourceCaps, resourceBullets, resourceCells].forEach(el => {
+  if (el) el.addEventListener("change", ensureResourceLimits);
+});
 
 /* PWA install */
 let deferredPrompt = null;
