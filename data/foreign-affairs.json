@@ -13,9 +13,9 @@
     { "name": "The Talon Company (William)", "status": "allied", "owner": "William", "asOf": "2025-01-05", "notes": "" },
     { "name": "Elysion", "status": "neutral", "owner": "", "asOf": "2025-01-05", "notes": "" },
     { "name": "Big MT Research Facility", "status": "neutral", "owner": "", "asOf": "2025-01-05", "notes": "" },
-    { "name": "The Brotherhood of Steel (Syncz)", "status": "neutral", "owner": "Syncz", "asOf": "2025-01-05", "notes": "" },
+    { "name": "The Brotherhood of Steel (Syncz)", "status": "neutral", "owner": "Syncz", "asOf": "2025-01-05", "notes": "Doesn't Have Brotherhood of Steel Tag." },
     { "name": "The Brotherhood of Gold", "status": "neutral", "owner": "", "asOf": "2025-01-05", "notes": "Good friends." },
-    { "name": "The Brotherhood of Steel (hjonks)", "status": "enemies", "owner": "hjonks", "asOf": "2025-01-05", "notes": "KOS" },
+    { "name": "The Brotherhood of Steel (hjonks)", "status": "enemies", "owner": "hjonks", "asOf": "2025-01-05", "notes": "KOS - Has Brotherhood of Steel Tag (Blue)" },
     { "name": "New Californian Republic", "status": "neutral", "owner": "WOLF", "asOf": "2025-01-05", "notes": "" },
     { "name": "New Californian Republic", "status": "neutral", "owner": "CIA", "asOf": "2025-01-05", "notes": "" }
   ]
