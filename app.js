@@ -29,7 +29,7 @@ const patrolSection = $("patrolSection");
 const backupSection = $("backupSection");
 const inactivitySection = $("inactivitySection");
 const dischargeSection = $("dischargeSection");
-const resourceSection = $("resourceSection");
+const ammoSection = $("ammoSection");
 
 const timerText = $("timerText");
 const startStamp = $("startStamp");
@@ -50,11 +50,11 @@ const inactivityReason = $("inactivityReason");
 const dischargeDate = $("dischargeDate");
 const dischargeReason = $("dischargeReason");
 
-const resourceReason = $("resourceReason");
-const resourceCurrentProof = $("resourceCurrentProof");
-const resourceBullets = $("resourceBullets");
-const resourceCells = $("resourceCells");
-const resourceNote = $("resourceNote");
+const ammoReason = $("ammoReason");
+const ammoCurrentProof = $("ammoCurrentProof");
+const ammoBullets = $("ammoBullets");
+const ammoCells = $("ammoCells");
+const ammoNote = $("ammoNote");
 
 const generateBtn = $("generateBtn");
 const outputEl = $("output");
@@ -139,7 +139,7 @@ function modeSwitch(type) {
   backupSection.classList.toggle("hidden", type !== "backup");
   inactivitySection.classList.toggle("hidden", type !== "inactivity");
   dischargeSection.classList.toggle("hidden", type !== "discharge");
-  resourceSection.classList.toggle("hidden", type !== "resource");
+  ammoSection.classList.toggle("hidden", type !== "ammo");
 }
 
 function getSelectedTasks() {
@@ -153,22 +153,10 @@ function clampNumber(value, min, max) {
   return Math.min(max, Math.max(min, n));
 }
 
-function ensureResourceLimits() {
-  // Monthly caps limit
-  if (resourceCaps) {
-    resourceCaps.value = clampNumber(resourceCaps.value, 0, 5000);
-  }
-
-  // Keep ammo limits
-  if (resourceBullets) {
-    resourceBullets.value = clampNumber(resourceBullets.value, 0, 1500);
-  }
-
-  if (resourceCells) {
-    resourceCells.value = clampNumber(resourceCells.value, 0, 500);
-  }
+function ensureAmmoLimits() {
+  ammoBullets.value = String(clampNumber(ammoBullets.value, 0, 1500));
+  ammoCells.value = String(clampNumber(ammoCells.value, 0, 500));
 }
-
 
 function validateBasics() {
   const u = usernameEl.value.trim();
@@ -246,19 +234,19 @@ function generateOutput() {
     text += `Date of Discharge: ${date || "—"}\n`;
     text += `Reason: ${reason || "—"}\n`;
 
-  } else if (type === "resource") {
-    ensureResourceLimits();
-    const reason = resourceReason.value.trim();
-    const proof = resourceCurrentProof.value.trim();
-    const bullets = resourceBullets.value.trim() || "0";
-    const cells = resourceCells.value.trim() || "0";
-    const note = resourceNote.value.trim();
+  } else if (type === "ammo") {
+    ensureAmmoLimits();
+    const reason = ammoReason.value.trim();
+    const proof = ammoCurrentProof.value.trim();
+    const bullets = ammoBullets.value.trim() || "0";
+    const cells = ammoCells.value.trim() || "0";
+    const note = ammoNote.value.trim();
 
     text += `Name: ${username}\n`;
     text += `Rank: ${rank}\n`;
     text += `Reason for Request: ${reason || "—"}\n`;
     text += `Current Bullet Count: ${proof || "(show picture proof)"}\n`;
-    text += `Amount Requesting: ${bullets} Bullets, ${cells} Fusion Cells,\n`;
+    text += `Amount Requesting: ${bullets} Bullets, ${cells} Fusion Cells\n`;
     text += `Note: ${note || "—"}\n`;
     text += `Limit 1.5k Bullets, and 500 Fusion Cells\n`;
   }
@@ -305,7 +293,7 @@ function renderHistory() {
       backup: "Backup",
       inactivity: "Inactivity",
       discharge: "Discharge",
-      resource: "Resource"
+      ammo: "Ammo"
     })[e.type] || e.type;
 
     return `
@@ -515,10 +503,8 @@ exportBtn.addEventListener("click", exportTxt);
 clearHistoryBtn.addEventListener("click", clearHistory);
 clearSavedBtn.addEventListener("click", clearSaved);
 
-/* Resource limit enforcement */
-[resourceCaps, resourceBullets, resourceCells].forEach(el => {
-  if (el) el.addEventListener("change", ensureResourceLimits);
-});
+/* Ammo limit enforcement */
+[ammoBullets, ammoCells].forEach(el => el.addEventListener("change", ensureAmmoLimits));
 
 /* PWA install */
 let deferredPrompt = null;
