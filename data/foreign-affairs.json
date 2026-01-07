@@ -9,7 +9,7 @@
   "foreignAffairs": [
     { "name": "The Enclave Marine Corp (Jeffclave)", "status": "neutral", "owner": "Jeffclave", "asOf": "2026-01-05", "notes": "" },
     { "name": "The Enclave (Richclave)", "status": "neutral", "owner": "Richclave", "asOf": "2026-01-05", "notes": "" },
-    { "name": "The Caesar's Legion [V52]", "status": "neutral", "owner": "", "asOf": "2026-01-05", "notes": "" },
+    { "name": "The Caesar's Legion [V52]", "status": "neutral", "owner": "SF", "asOf": "2026-01-05", "notes": "" },
     { "name": "The Talon Company (William)", "status": "allied", "owner": "William", "asOf": "2026-01-05", "notes": "" },
     { "name": "Elysion", "status": "neutral", "owner": "", "asOf": "2026-01-05", "notes": "" },
     { "name": "Big MT Research Facility", "status": "neutral", "owner": "", "asOf": "2026-01-05", "notes": "" },
@@ -18,6 +18,7 @@
     { "name": "The Brotherhood of Steel (hjonks)", "status": "enemies", "owner": "hjonks", "asOf": "2026-01-05", "notes": "KOS - Has Brotherhood of Steel Tag (Blue)" },
     { "name": "The Brotherhood of Steel Outcasts", "status": "enemies", "owner": "", "asOf": "2026-01-06", "notes": "KOS" },
     { "name": "New Californian Republic", "status": "neutral", "owner": "WOLF", "asOf": "2026-01-05", "notes": "" },
-    { "name": "New Californian Republic", "status": "neutral", "owner": "CIA", "asOf": "2026-01-05", "notes": "" }
+    { "name": "New Californian Republic", "status": "neutral", "owner": "CIA", "asOf": "2026-01-05", "notes": "" },
+    { "name": "United States Enclave", "status": "neutral", "owner": "", "asOf": "2026-01-06", "notes": "" }
   ]
 }
