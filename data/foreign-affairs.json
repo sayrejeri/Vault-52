@@ -7,17 +7,17 @@
     { "term": "Enemies", "meaning": "They are considered by Vault Security and any other Vault official KoS." }
   ],
   "foreignAffairs": [
-    { "name": "The Enclave (Richclave)", "status": "allied", "owner": "Richclave", "asOf": "2026-01-06", "notes": "" },
-    { "name": "The Caesar's Legion [V52]", "status": "neutral", "owner": "SF", "asOf": "2026-01-05", "notes": "" },
-    { "name": "The Talon Company (William)", "status": "neutral", "owner": "William", "asOf": "2026-01-05", "notes": "Soon to be allied" },
-    { "name": "Elysion", "status": "neutral", "owner": "", "asOf": "2026-01-05", "notes": "" },
-    { "name": "Big MT Research Facility", "status": "neutral", "owner": "", "asOf": "2026-01-05", "notes": "" },
-    { "name": "The Brotherhood of Steel (Syncz)", "status": "neutral", "owner": "Syncz", "asOf": "2026-01-05", "notes": "Doesn't Have Brotherhood of Steel Tag." },
-    { "name": "The Brotherhood of Gold", "status": "neutral", "owner": "", "asOf": "2026-01-05", "notes": "Good friends." },
-    { "name": "The Brotherhood of Steel (hjonks)", "status": "enemies", "owner": "hjonks", "asOf": "2026-01-05", "notes": "KOS - Has Brotherhood of Steel Tag (Blue)" },
-    { "name": "The Brotherhood of Steel Outcasts", "status": "enemies", "owner": "", "asOf": "2026-01-06", "notes": "KOS" },
-    { "name": "New Californian Republic", "status": "neutral", "owner": "WOLF", "asOf": "2026-01-05", "notes": "" },
-    { "name": "New Californian Republic", "status": "neutral", "owner": "CIA", "asOf": "2026-01-05", "notes": "" },
-    { "name": "United States Enclave", "status": "neutral", "owner": "", "asOf": "2026-01-06", "notes": "" }
+    { "name": "The Caesar's Legion [V52]", "status": "enemies", "owner": "SF", "asOf": "2026-01-22", "notes": "KOS" },
+    { "name": "The Talon Company (William)", "status": "neutral", "owner": "William", "asOf": "2026-01-22", "notes": "Soon to be allied" },
+    { "name": "Elysion", "status": "neutral", "owner": "", "asOf": "2026-01-22", "notes": "" },
+    { "name": "Big MT Research Facility", "status": "neutral", "owner": "", "asOf": "2026-01-22", "notes": "" },
+    { "name": "The Brotherhood of Steel (Syncz)", "status": "neutral", "owner": "Syncz", "asOf": "2026-01-22", "notes": "Doesn't Have Brotherhood of Steel Tag." },
+    { "name": "The Brotherhood of Gold", "status": "neutral", "owner": "", "asOf": "2026-01-22", "notes": "Good friends." },
+    { "name": "The Brotherhood of Steel (hjonks)", "status": "neutral", "owner": "hjonks", "asOf": "2026-01-22", "notes": "Has Brotherhood of Steel Tag (Blue)" },
+    { "name": "The Brotherhood of Steel Outcasts", "status": "neutral", "owner": "", "asOf": "2026-01-22", "notes": "" },
+    { "name": "New Californian Republic", "status": "enemies", "owner": "WOLF", "asOf": "2026-01-22", "notes": "KOS" },
+    { "name": "New Californian Republic", "status": "neutral", "owner": "CIA", "asOf": "2026-01-22", "notes": "" },
+    { "name": "United States Enclave", "status": "allied", "owner": "", "asOf": "2026-01-22", "notes": "" },
+    { "name": "Enclave Marine Corp", "status": "enemies", "owner": "", "asOf": "2026-01-22", "notes": "KOS" }
   ]
 }
